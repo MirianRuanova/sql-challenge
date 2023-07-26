@@ -23,9 +23,9 @@
 
     6. ***title.csv**: title_id is the primary key.
 ## Data Analysis. 
-1. Create a `.sql` file of the query which lists the the employee number, last name, first name, sex, and salary of each employee. Right join on the `emp_no` column for the **employees** and **salaries** tables. [Salary of each employee]()
+1. Create a `.sql` file of the query which lists the the employee number, last name, first name, sex, and salary of each employee. Left join on the `emp_no` column for the **employees** and **salaries** tables. [Salary of each employee]()
     ```sql
-    SELECT emp_no, first_name, last_name, hire_date
+    SELECT emp_no, first_name, last_name, hire_date, salary
     FROM employees
     LEFT JOIN salaries ON
     salaries.emp_no = employees.emp_no;
@@ -59,37 +59,56 @@
     employees.last_name,
     employees.first_name
     FROM employees
-    INNER JOIN dept_emp ON
-    dept_name = dept_no.department;
+    INNER JOIN dept_emp ON employees.emp_no = dept_emp.emp_no
+    INNER JOIN departments ON dept_emp.dept_no = departments.dept_no;
+
     ```
 5. Create `.sql` file of the query which lists the first name, last name, and sex of each employee whose first name is Hercules and whose last name begins with the letter B.
     ```sql
-    SELECT dept_no.dept_manager, 
-    dept_no.departments, 
-    emp_no.employees
-    FROM dept_manager
-    INNER JOIN dept_no on dept_no.dept_manage = dept_no.department;
+    SELECT first_name, last_name, sex
+    FROM employees
+    WHERE first_name = 'Hercules' AND last_name LIKE 'B%';
+
     ```
 6. Create `.sql` file of the query which lists each employee in the Sales department, including their employee number, last name, and first name.
     ```sql
-    SELECT dept_no.dept_manager, 
-    dept_no.departments, 
-    emp_no.employees
-    FROM dept_manager
-    INNER JOIN dept_no on dept_no.dept_manage = dept_no.department;
+    SELECT
+    employees.emp_no,
+    employees.last_name,
+    employees.first_name
+    FROM
+        employees
+    INNER JOIN
+        dept_emp ON employees.emp_no = dept_emp.emp_no
+    INNER JOIN
+        departments ON dept_emp.dept_no = departments.dept_no
+    WHERE
+        departments.dept_name = 'Sales';
+
     ```
 7. Create `.sql` file of the query which lists each employee in the Sales and Development departments, including their employee number, last name, first name, and department name.
     ```sql
-    SELECT dept_no.dept_manager, 
-    dept_no.departments, 
-    emp_no.employees
-    FROM dept_manager
-    INNER JOIN dept_no on dept_no.dept_manage = dept_no.department;
+    SELECT
+    employees.emp_no,
+    employees.last_name,
+    employees.first_name,
+    departments.dept_name
+    FROM
+        employees
+    INNER JOIN
+        dept_emp ON employees.emp_no = dept_emp.emp_no
+    INNER JOIN
+        departments ON dept_emp.dept_no = departments.dept_no
+    WHERE
+        departments.dept_name IN ('Sales', 'Development');
+
     ```
 8. Create `.sql` file of the query which lists the frequency counts, in descending order, of all the employee last names (that is, how many employees share each last name).
     ```sql
-    SELECT dept_no.dept_manager, dept_no.departments, emp_no.employees
-    FROM dept_manager
-    INNER JOIN dept_no on dept_no.dept_manage = dept_no.department;
+    SELECT last_name, COUNT(*) AS frequency
+    FROM employees
+    GROUP BY last_name
+    ORDER BY frequency DESC;
+
     ```
 
