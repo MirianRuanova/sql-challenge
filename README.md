@@ -1,6 +1,6 @@
 # sql-challenge
 
-# sql-challenge
+
 ## Relationships
 ### One-to-One
 - #### Each employee has it own salary.
